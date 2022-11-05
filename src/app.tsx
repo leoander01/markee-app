@@ -1,15 +1,34 @@
-import { useRef } from 'react'
 import styled from 'styled-components/macro'
 import { Sidebar } from 'sidebar'
 import { Content } from './content'
+import { useFiles } from './resources/files/use-files'
 
 export function App () {
-  const inputRef = useRef<HTMLInputElement>(null)
+  const {
+    handleUpdateFileContent,
+    handleUpdateFileName,
+    inputRef,
+    handleRemoveFile,
+    handleSelectFile,
+    files,
+    handleCreateNewFile,
+  } = useFiles()
 
   return (
     <Main>
-      <Sidebar inputRef={inputRef} />
-      <Content inputRef={inputRef} />
+      <Sidebar
+        files={files}
+        onNewFile={handleCreateNewFile}
+        onSelectFile={handleSelectFile}
+        onRemoveFile={handleRemoveFile}
+      />
+
+      <Content
+        inputRef={inputRef}
+        file={files.find(file => file.active === true)}
+        onUpdateFileName={handleUpdateFileName}
+        onUpdateFileContent={handleUpdateFileContent}
+      />
     </Main>
   )
 }
